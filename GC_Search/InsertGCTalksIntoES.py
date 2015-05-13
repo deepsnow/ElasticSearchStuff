@@ -22,7 +22,7 @@ class IndexTalks:
 
     def FetchTalksAndIndexThem(self, url):
         self.confId, talkHandles = self.ft.FetchTalks(url)
-        print(str.format('confId: {}, num talk hanldes: {}', self.confId, len(talkHandles)))
+        ##print(str.format('confId: {}, num talk hanldes: {}', self.confId, len(talkHandles)))
         for handle in talkHandles:
             self._InsertOneTalkIntoES(handle)
 
@@ -56,10 +56,10 @@ class IndexTalks:
 
     def _InsertOneTalkIntoES(self, talkHandle):
         title, author, talkContent = self._GetTitleAuthorContent(talkHandle)
-        json_body = json.dumps({'title': title, 'author': author, 'ConfId': self.confId, 'content': talkContent})
+        json_body = json.dumps({'title': title, 'author': author, 'confid': self.confId, 'content': talkContent})
         idnum = self._GetNextId()
         print('indexing doc num: ' + str(idnum))
-        self.es.index(self.index_name, self.doc_type, idnum, json_body)
+        self.es.index(index=self.index_name, doc_type=self.doc_type, id=idnum, body=json_body)
 
 
 
@@ -75,12 +75,12 @@ class IndexTalksTest(unittest.TestCase):
         self.it = IndexTalks()
 
     def test_InsertOneTalkIntoES_ESApiCalled(self):
-        json_body = json.dumps({'title': 'Welcome to Conference', 'author': 'President Thomas S. Monson', 'ConfId': self.confId, 'content': self.htmlContent})
+        json_body = json.dumps({'title': 'Welcome to Conference', 'author': 'President Thomas S. Monson', 'confid': self.confId, 'content': self.htmlContent})
         talkHandle = io.StringIO(self.htmlContent)
         self.it.confId = self.confId
         with patch.object(Elasticsearch, 'index', return_value=None) as mock_method:
             self.it._InsertOneTalkIntoES(talkHandle)
-        mock_method.assert_called_once_with(self.it.index_name, self.it.doc_type, self.it._GetNextId()-1, json_body)
+        mock_method.assert_called_once_with(index=self.it.index_name, doc_type=self.it.doc_type, id=self.it._GetNextId()-1, body=json_body)
 
     def test_FetchTalks_IndexThemOneByOne(self):
         talkUrl = 'https://www.lds.org/general-conference/2014/10/welcome-to-conference?lang=eng'
