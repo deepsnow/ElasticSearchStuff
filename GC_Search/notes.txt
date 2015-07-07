@@ -1,0 +1,27 @@
+
+May 13, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Using this query
+
+GET /gc-index/talk/_search
+{
+  "query" : {
+    "match" : {
+      "content" : "peace"
+    }
+  },
+    "highlight" : {
+      "fields" : {
+        "content" : {"number_of_fragments": 50}
+      }
+    }
+}
+
+in sense (http://localhost:9200/_plugin/marvel/sense/index.html), I've learned that I really need to index only the text of the GC conf talks and not any of the HTML.
+
+When all of the first 50 hits on "peace" from Elder's Perry's talk "FINDING LASTING PEACE AND BUILDING ETERNAL FAMILIES" come from markup, then that means there is way too much markup...
+
+I need to download the PDFs and strip the text out of them, but how will I do that?
+
+And, I need to figure out how to stop ES from returning the entire talk when it has hits. I just want the highlights...
