@@ -1,9 +1,14 @@
+from FetchAllGCEditions import FetchEditions
 from InsertGCTalksIntoES import IndexTalks
 
-def main():
-    url = 'https://www.lds.org/general-conference/sessions/2014/10?lang=eng'
+def main():  
     indexer = IndexTalks()
-    indexer.FetchTalksAndIndexThem(url)
+    archiveUrl = 'https://www.lds.org/general-conference/conferences?lang=eng'
+    finder = FetchEditions()
+    editionUrls = finder.FetchEditions(archiveUrl)
+    for editionUrl in editionUrls:
+        print('GC: ' + editionUrl)
+        indexer.FetchTalksAndIndexThem(editionUrl)
 
 if __name__ == '__main__':
     main()

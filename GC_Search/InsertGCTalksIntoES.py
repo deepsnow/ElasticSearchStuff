@@ -22,7 +22,7 @@ class IndexTalks:
 
     def FetchTalksAndIndexThem(self, url):
         self.confId, talkHandles = self.ft.FetchTalks(url)
-        ##print(str.format('confId: {}, num talk hanldes: {}', self.confId, len(talkHandles)))
+        print(str.format('confId: {}, num talk hanldes: {}', self.confId, len(talkHandles)))
         for handle in talkHandles:
             self._InsertOneTalkIntoES(handle)
 

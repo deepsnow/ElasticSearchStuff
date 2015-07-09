@@ -6,10 +6,7 @@ import io
 
 
 
-class FetchTalks:
-
-    def _FetchPage(self, url):
-        return urllib.request.urlopen(url)
+class FetchTalks:       
 
     def _GetTalkLink(self, line):
         talkTag = '<span class="talk">'
@@ -40,10 +37,10 @@ class FetchTalks:
         return ( confId, talkLinks )
 
     def _FetchWeekenSummaryPage(self, url):
-        return self._FetchPage(url)
+        return urllib.request.urlopen(url)
 
     def _FetchIndividualTalk(self, url):
-        return self._FetchPage(url)
+        return urllib.request.urlopen(url)
 
     def _FindConfId(self, strLine):
         confId = ''
