@@ -25,3 +25,54 @@ When all of the first 50 hits on "peace" from Elder's Perry's talk "FINDING LAST
 I need to download the PDFs and strip the text out of them, but how will I do that?
 
 And, I need to figure out how to stop ES from returning the entire talk when it has hits. I just want the highlights...
+
+July 7, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+how to delete in Sense? "DELETE gc-index"
+
+I can build an index like this in Sense:
+
+PUT gc-index
+{
+  "settings" : {
+    "analysis" : {
+      "analyzer" : {
+        "remove_html" : {
+          "tokenizer" : "standard",
+          "char_filter" : [ "html_strip" ]
+          }
+        }
+      }
+    }
+  
+,
+  
+    "mappings" : {
+      "talk" : {
+        "properties" : {
+          "title" : { "type": "string" },
+          "author" : { "type": "string" },
+          "confid" : { "type": "string" },
+          "content" : { "type": "string", "analyzer": "remove_html" }
+        }
+      }
+    }
+  
+}  
+
+And, I can do it in code as well. See ESIndexOps.py and experimental_index_create.py.
+
+Here's a way to test index settings: GET /gc-index/_settings,_mappings
+
+I've succeeded in creating the index via python with the desired analyzer (with HTML char removal), and now I only 13 hits when I search for peace (as opposed to the 50 that I used to get according to the above?), but the hits still return the entire content of each talk as well as the individual hits in the highlights section.
+
+How did it look before? I need to do a before and after test to see if my html removal made a positive difference...
+
+
+July 9, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+I've discovered that my attempt toe create an index that uses the "html_strip" character filter analyzer does indeed work properly. (I compared a gc_index with the analyzer to a gc_index-2 without it and found that gc_index behaved as desired (returning only content hits and not markup hits).) That's great!!!
+
+Now, where are the other conference talks published? I've asked Ronald to tell me where they can be found.
