@@ -33,9 +33,12 @@ class IndexTalks:
 
     def _GetTitleAndAuthor(self, line, tag, tagIndex):
         titleString = HtmlTagParser.GetTagContents(tag, line, tagIndex)
-        titleSegments = titleString.split(' - By ')
-        title = titleSegments[0]
-        author = titleSegments[1]
+        print('title string: ' + titleString)
+        titleSegments = titleString.split('-')
+        title = titleSegments[0].strip()
+        author = titleSegments[1].strip()
+        if author.find('By') == 0:
+            author = author[3:].strip()
         return ( title, author )
 
     def _GetTitleAuthorContent(self, talkHandle):
@@ -45,7 +48,8 @@ class IndexTalks:
         titleFound = False
         talkContent = ''
         for line in talkHandle:
-            strLine = str(line)
+            #strLine = str(line)
+            strLine = line.decode()
             talkContent = talkContent + strLine
             if titleFound == False:
                 titleIndex = strLine.find(titleOpenTag)
@@ -76,7 +80,7 @@ class IndexTalksTest(unittest.TestCase):
 
     def test_InsertOneTalkIntoES_ESApiCalled(self):
         json_body = json.dumps({'title': 'Welcome to Conference', 'author': 'President Thomas S. Monson', 'confid': self.confId, 'content': self.htmlContent})
-        talkHandle = io.StringIO(self.htmlContent)
+        talkHandle = io.BytesIO(bytes(self.htmlContent, 'utf-8'))
         self.it.confId = self.confId
         with patch.object(Elasticsearch, 'index', return_value=None) as mock_method:
             self.it._InsertOneTalkIntoES(talkHandle)
@@ -91,4 +95,17 @@ class IndexTalksTest(unittest.TestCase):
         self.it.FetchTalksAndIndexThem(talkUrl)
         self.it.ft.FetchTalks.assert_called_once_with(talkUrl)
         self.it._InsertOneTalkIntoES.assert_called_once_with(talkHandles[0])
+
+    def test_GetTitleAndAuthor_ProperSplittingDone(self):
+        tag = '<title>'
+        title, author = self.it._GetTitleAndAuthor('<title>Filling Our Homes with Light and Truth -  By Cheryl A. Esplin </title>', tag, 0)
+        self.assertEqual(title, 'Filling Our Homes with Light and Truth')
+        self.assertEqual(author, 'Cheryl A. Esplin')
+        title, author = self.it._GetTitleAndAuthor('<title>Welcome to Conference - By President Thomas S. Monson</title>', tag, 0)
+        self.assertEqual(title, 'Welcome to Conference')
+        self.assertEqual(author, 'President Thomas S. Monson')
+        title, author = self.it._GetTitleAndAuthor('<title>Welcome to Conference - Thomas S. Monson</title>', tag, 0)
+        self.assertEqual(title, 'Welcome to Conference')
+        self.assertEqual(author, 'Thomas S. Monson')
+        
         

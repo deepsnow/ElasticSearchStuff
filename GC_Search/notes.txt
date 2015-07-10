@@ -76,3 +76,12 @@ July 9, 2015
 I've discovered that my attempt toe create an index that uses the "html_strip" character filter analyzer does indeed work properly. (I compared a gc_index with the analyzer to a gc_index-2 without it and found that gc_index behaved as desired (returning only content hits and not markup hits).) That's great!!!
 
 Now, where are the other conference talks published? I've asked Ronald to tell me where they can be found.
+
+July 10, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+I'm still trying to load all of the GC talks that are available on lds.org (back to 1971). I can parse the archive page successfully, and I can load all of the talks from Apr 2015 and Oct 2014, but I error out on Apr 2014. Why? The second talk of that Conference has a title string with no author listed. It seems that I'm going to have to do a more complex parse if I want to get the title and author reliably.
+
+Also, there are unicode characters in the <title> string that I am likely not handling properly at this point. They look badly when I output them to a text file... Will this happen when I get title and auther further down in the page?
+
+OK, looking back at the output file, it appears that once Notepad++ refreshed the unicode chars were gone...? I can't see them any more...
