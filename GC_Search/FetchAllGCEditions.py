@@ -11,22 +11,27 @@ class FetchEditions:
         return self._FetchEditionsUrls(archiveHandle)
 
     def _FetchEditionsUrls(self, archiveHandle):
-        handlesToEditions = []
+        self.handlesToEditions = []
         reachedArchive = False
         for line in archiveHandle:
             str_line = str(line)
-            if str_line.find('<h2>Conference Archive</h2>'):
+            if str_line.find('<h2>Conference Archive</h2>') > 0:
                 reachedArchive = True
             if reachedArchive:
-                urlPrefix = 'https://www.lds.org/general-conference/sessions'
-                urlStartIndex = str_line.find(urlPrefix)
-                if urlStartIndex > 0:
-                    urlEndIndex = str_line.find('"', urlStartIndex)
-                    newUrl = str(line[urlStartIndex:urlEndIndex])
-                    print(newUrl)
-                    handlesToEditions.append(newUrl)
-        return handlesToEditions        
-                
+                endIndex = self._FindUrlOnLine(str_line, 0)
+                self._FindUrlOnLine(str_line, endIndex) # some lines have two URLs
+        return self.handlesToEditions
+
+    def _FindUrlOnLine(self, str_line, callersIndex):
+        urlPrefix = 'https://www.lds.org/general-conference/sessions'
+        urlStartIndex = str_line.find(urlPrefix, callersIndex)
+        if urlStartIndex > 0:
+            urlEndIndex = str_line.find('"', urlStartIndex)
+            #print(str(urlStartIndex) + "-" + str(urlEndIndex) + "-" + str_line)
+            newUrl = str_line[urlStartIndex:urlEndIndex]
+            print(newUrl)
+            self.handlesToEditions.append(newUrl)
+            return urlEndIndex
 
     def _FetchArchivePage(self, url):
         return urllib.request.urlopen(url)
@@ -40,8 +45,14 @@ class FetchEditionsTest(unittest.TestCase):
                     <ul>
                     <li><a href="#">2015</a>
                     <ul class="menu-list click-menu" style="display: none;">
-                    <a href="https://www.lds.org/general-conference/sessions/2015/04?lang=eng">April</a></li>
+                    <li><a href="https://www.lds.org/general-conference/sessions/2015/04?lang=eng">April</a></li>
                     </ul>
+                    </li>
+                    <li><a href="#">2014</a>
+                    <ul class="menu-list click-menu" style="display: none;">
+                    <li><a href="https://www.lds.org/general-conference/sessions/2014/10?lang=eng">October</a></li><li><a href="https://www.lds.org/general-conference/sessions/2014/04?lang=eng">April</a></li>
+                    </ul>
+                    </li>
                     </ul>
                     </div>
                     </html>"""
@@ -58,3 +69,6 @@ class FetchEditionsTest(unittest.TestCase):
     def test_FetchEditionsUrls_LoneUrlFoundAndReturned(self):
         urls = self.fe._FetchEditionsUrls(io.StringIO(self.htmlContent))
         self.assertEqual(urls[0], 'https://www.lds.org/general-conference/sessions/2015/04?lang=eng')
+        self.assertEqual(urls[1], 'https://www.lds.org/general-conference/sessions/2014/10?lang=eng')
+        self.assertEqual(urls[2], 'https://www.lds.org/general-conference/sessions/2014/04?lang=eng')
+        self.assertEqual(len(urls), 3)
