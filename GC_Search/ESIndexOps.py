@@ -35,7 +35,7 @@ class ESIndexOps:
                     }
                 
             }
-        self.index_name = "gc-index"
+        self.index_name = "gc"
         
 
     def CreateGCIndexWithMapping(self):

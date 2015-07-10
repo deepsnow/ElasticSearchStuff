@@ -11,7 +11,7 @@ import json
 
 class IndexTalks:
 
-    index_name = 'gc-index'
+    index_name = 'gc'
     doc_type = 'talk'
 
     def __init__(self):
