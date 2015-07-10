@@ -85,3 +85,7 @@ I'm still trying to load all of the GC talks that are available on lds.org (back
 Also, there are unicode characters in the <title> string that I am likely not handling properly at this point. They look badly when I output them to a text file... Will this happen when I get title and auther further down in the page?
 
 OK, looking back at the output file, it appears that once Notepad++ refreshed the unicode chars were gone...? I can't see them any more...
+
+Now that I'm handling the unicode chars as such, I can't display debugging output on the command line anymore because some of the chars won't render. Or, can I tell print the encoding?
+
+Going to start on UI in special index containing only two Confs' worth of talks (Apr 2015 and Oct 2014). These can be found in ES index 'gc-index_2confs'.
