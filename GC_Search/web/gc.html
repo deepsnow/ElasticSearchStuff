@@ -4,8 +4,24 @@
 	</head>
 	
 	<body>
-		<div ng-controller="gcController">
-			<h1>Hello {{ doug.name }}!</h1>
+		<div ng-controller="gcEsSearch" align="center">
+			<h1>LDS General Conference Search</h1>
+			<h3>This is not an official site of the Church of Jesus Christ of Latter-day Saints.</h3>
+			
+			<input type="text" size="30" placeholder="{{searcher.searchTerm}}">
+			<input class="btn-primary" type="submit" value="search">
+			
+			<ul>
+				<li></li>
+			</ul>
+			
+			<footer>
+				<p>General Conference talk content was retrieved from:</p>
+				<ul>
+					<li>Apr 2015 - Apr 1971: <a href="https://www.lds.org/general-conference/conferences?lang=eng">LDS.ORG's General Conference Archive</a></li>
+				</ul>
+				<p>The source code for this site, and for populating the underlying ElasticSearch engine with the content listed above, can be found <a href="https://github.com/deepsnow/ElasticSearchStuff/tree/master/GC_Search">here</a>.
+			</footer>
 		</div>
 		<script type="text/javascript" src="es.js"></script>
 	</body>
