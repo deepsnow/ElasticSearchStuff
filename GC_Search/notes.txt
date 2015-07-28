@@ -6,6 +6,7 @@ Using this query
 
 GET /gc-index/talk/_search
 {
+  "fields" : ["title", "author", "confid"],
   "query" : {
     "match" : {
       "content" : "peace"
@@ -89,3 +90,14 @@ OK, looking back at the output file, it appears that once Notepad++ refreshed th
 Now that I'm handling the unicode chars as such, I can't display debugging output on the command line anymore because some of the chars won't render. Or, can I tell print the encoding?
 
 Going to start on UI in special index containing only two Confs' worth of talks (Apr 2015 and Oct 2014). These can be found in ES index 'gc-index_2confs'.
+
+
+July 13, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+What can I do to begin to build my UI?
+
+What would need to change in the Python code to add a URL to my talk mapping?
+
+How can I get ES to refraining from returning the entire talk content?
+	Yes!!! The fields option to the search API. See http://stackoverflow.com/questions/9605292/make-elasticsearch-only-return-certain-fields.
