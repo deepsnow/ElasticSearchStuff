@@ -101,3 +101,16 @@ What would need to change in the Python code to add a URL to my talk mapping?
 
 How can I get ES to refraining from returning the entire talk content?
 	Yes!!! The fields option to the search API. See http://stackoverflow.com/questions/9605292/make-elasticsearch-only-return-certain-fields.
+
+Aug 10, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Where can I get GC content from before 1971?
+
+http://www.reddit.com/r/latterdaysaints/comments/2etwco/why_does_the_general_conference_archive_on_ldsorg/
+	https://archive.org/search.php?query=%28collection%3Aconferencereport+OR+mediatype%3Aconferencereport%29+AND+-mediatype%3Acollection&sort=date&page=1
+	https://archive.org/details/conferencereport?&sort=date // I like this one!
+	http://www.journalofdiscourses.com/
+	http://josephsmithpapers.org/the-papers
+	http://gospelink.com/browse/category/8 // I don't like this because it's subscription based...
+	http://tech.lds.org/forum/viewtopic.php?t=7878-pre-1942-conference-reports
