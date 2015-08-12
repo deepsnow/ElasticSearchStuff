@@ -138,3 +138,32 @@ GET /gc/talk/_search
       }
     }
 }
+
+Aug 12, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pres Eyring's talk title is surrounded in unicode quotes '\u201c', and I can't output this to my cmd.exe. So, I'm trying power shell...
+
+I've tried briefly to figure out how to get the console to display UTF-8, but I got nowhere and so I'm going to redirect console output to a file.
+
+I need to make sure that index creation, with the HTML char stripping, is run every time...
+
+I've found that ES's official JavaScript client is elasiticsearch.js (with the Angular-specific build being elasticsearch.angular.js), and that there are at least two other builds worth considering:
+	elastic.js // from fullscale.code, building upon the above
+	ElasticUI // Angular directives, building upon elastic.js, see author on http://stackoverflow.com/questions/22661996/example-of-angular-and-elasticsearch
+	
+elasticsearch.js et all seem to need Bower, which seems to need node.js
+	
+	https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html
+	https://github.com/spalger/elasticsearch-angular-example
+	https://www.elastic.co/blog/client-for-node-js-and-the-browser
+	
+OK, I think I've got my html and js files successfully loading elasticsearch.angular.js!!!
+
+I'm trying to get one search (one round trip to ES and back) to work. Here are some observations arising from that effort:
+	1- ES won't find "rehears" in index 'gc' even though Neil L Anderson's talk "Thy Kingdom Come" contains the word "rehearsing".
+		ES must tokenize on whole words. How will I do "rehears*" from AngularJS?
+	2- How can I determine whether or not I'm actually querying ES from my JS code?
+		There are no errors reported in Chrome's JS console...
+		Can I inspect this with Fiddler?
+		
