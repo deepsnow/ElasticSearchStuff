@@ -6,7 +6,7 @@ Using this query
 
 GET /gc-index/talk/_search
 {
-  "fields" : ["title", "author", "confid"],
+  "fields" : ["title", "author", "confid", "url"],
   "query" : {
     "match" : {
       "content" : "peace"
@@ -115,3 +115,26 @@ http://www.reddit.com/r/latterdaysaints/comments/2etwco/why_does_the_general_con
 	http://gospelink.com/browse/category/8 // I don't like this because it's subscription based...
 	http://tech.lds.org/forum/viewtopic.php?t=7878-pre-1942-conference-reports
 	https://www.lds.org/church/news/church-publishing-40-years-of-conference-audio-and-video?lang=eng
+	
+
+Aug 11, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Tonight I've updated my python GC content retrieving code to also capture each talk's URL. This will be essential to my web app's ability to help users see the full text pertaining to any/all of their search hits.
+
+Here's the Sense URL: http://localhost:9200/_plugin/marvel/sense/index.html
+
+GET /gc/talk/_search
+{
+  "fields" : ["title", "author", "confid", "url"],
+  "query" : {
+    "match" : {
+      "content" : "peace"
+    }
+  },
+    "highlight" : {
+      "fields" : {
+        "content" : {"number_of_fragments": 50}
+      }
+    }
+}

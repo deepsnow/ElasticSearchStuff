@@ -6,7 +6,7 @@ import io
 from FetchAllTalksForOneGC import FetchTalks
 from FetchAllTalksForOneGC import HtmlTagParser
 import json
-
+import urllib.request
 
 
 class IndexTalks:
@@ -20,11 +20,15 @@ class IndexTalks:
         self.es_id_seq = 0
         self.confId = ''
 
-    def FetchTalksAndIndexThem(self, url):
-        self.confId, talkHandles = self.ft.FetchTalks(url)
-        print(str.format('confId: {}, num talk hanldes: {}', self.confId, len(talkHandles)))
-        for handle in talkHandles:
-            self._InsertOneTalkIntoES(handle)
+    def _FetchIndividualTalk(self, url):
+        return urllib.request.urlopen(url)
+
+    def FetchTalksAndIndexThem(self, weekendUrl):
+        self.confId, talkUrls = self.ft.FetchTalks(weekendUrl)
+        print(str.format('confId: {}, num talk urls: {}', self.confId, len(talkUrls)))
+        for url in talkUrls:
+            handle = self._FetchIndividualTalk(url)
+            self._InsertOneTalkIntoES(handle, url)
 
     def _GetNextId(self):
         result = self.es_id_seq
@@ -58,9 +62,9 @@ class IndexTalks:
                     titleFound = True
         return ( title, author, talkContent )
 
-    def _InsertOneTalkIntoES(self, talkHandle):
+    def _InsertOneTalkIntoES(self, talkHandle, talkUrl):
         title, author, talkContent = self._GetTitleAuthorContent(talkHandle)
-        json_body = json.dumps({'title': title, 'author': author, 'confid': self.confId, 'content': talkContent})
+        json_body = json.dumps({'title': title, 'author': author, 'confid': self.confId, 'content': talkContent, 'url': talkUrl})
         idnum = self._GetNextId()
         print('indexing doc num: ' + str(idnum))
         self.es.index(index=self.index_name, doc_type=self.doc_type, id=idnum, body=json_body)
@@ -74,27 +78,37 @@ class IndexTalksTest(unittest.TestCase):
                     </html>"""
 
     confId = 'October 2014'
+    talkUrl = 'https://www.lds.org/general-conference/2014/10/welcome-to-conference?lang=eng'
 
     def setUp(self):
         self.it = IndexTalks()
 
+    def test_FetchPage_OneUrlRequestMade(self):
+        talkUrl = 'https://www.lds.org/general-conference/2014/10/welcome-to-conference?lang=eng'
+        with patch.object(urllib.request, 'urlopen', return_value=None) as mock_method:
+            self.it._FetchIndividualTalk(talkUrl)
+        mock_method.assert_called_once_with(talkUrl)
+
     def test_InsertOneTalkIntoES_ESApiCalled(self):
-        json_body = json.dumps({'title': 'Welcome to Conference', 'author': 'President Thomas S. Monson', 'confid': self.confId, 'content': self.htmlContent})
+        json_body = json.dumps({'title': 'Welcome to Conference', 'author': 'President Thomas S. Monson', 'confid': self.confId, 'content': self.htmlContent, 'url': self.talkUrl})
         talkHandle = io.BytesIO(bytes(self.htmlContent, 'utf-8'))
         self.it.confId = self.confId
         with patch.object(Elasticsearch, 'index', return_value=None) as mock_method:
-            self.it._InsertOneTalkIntoES(talkHandle)
+            self.it._InsertOneTalkIntoES(talkHandle, self.talkUrl)
         mock_method.assert_called_once_with(index=self.it.index_name, doc_type=self.it.doc_type, id=self.it._GetNextId()-1, body=json_body)
 
     def test_FetchTalks_IndexThemOneByOne(self):
-        talkUrl = 'https://www.lds.org/general-conference/2014/10/welcome-to-conference?lang=eng'
+        weekendUrl = 'https://www.lds.org/general-conference/sessions/2014/10?lang=eng'
         talkHandles = []
         talkHandles.append(io.StringIO('some talk\'s content'))
-        self.it.ft.FetchTalks = Mock(return_value= ( self.confId, talkHandles ))
+        self.it.ft.FetchTalks = Mock(return_value= ( self.confId, [ self.talkUrl ] ))
         self.it._InsertOneTalkIntoES = Mock(return_value=None)
-        self.it.FetchTalksAndIndexThem(talkUrl)
-        self.it.ft.FetchTalks.assert_called_once_with(talkUrl)
-        self.it._InsertOneTalkIntoES.assert_called_once_with(talkHandles[0])
+        self.it._FetchIndividualTalk = Mock(return_value=talkHandles[0])
+        self.it.FetchTalksAndIndexThem(weekendUrl)
+        self.it.ft.FetchTalks.assert_called_once_with(weekendUrl)
+        self.it._FetchIndividualTalk.assert_called_with(self.talkUrl)
+        self.it._InsertOneTalkIntoES.assert_called_once_with(talkHandles[0], self.talkUrl)
+
 
     def test_GetTitleAndAuthor_ProperSplittingDone(self):
         tag = '<title>'

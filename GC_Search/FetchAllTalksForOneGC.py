@@ -39,9 +39,6 @@ class FetchTalks:
     def _FetchWeekenSummaryPage(self, url):
         return urllib.request.urlopen(url)
 
-    def _FetchIndividualTalk(self, url):
-        return urllib.request.urlopen(url)
-
     def _FindConfId(self, strLine):
         confId = ''
         titleOpenTag = '<title>'
@@ -54,14 +51,12 @@ class FetchTalks:
         return confId
 
     def FetchTalks(self, weekendUrl):
-        handlesToTalks = []
         summaryPageHandle = self._FetchWeekenSummaryPage(weekendUrl)
-        confId, linksToTalks = self._FindConfIdAndTalkLinksInPage(summaryPageHandle)
-        print('num talks: ' + str(len(linksToTalks)))
-        for link in linksToTalks:
-            print(link)
-            handlesToTalks.append(self._FetchIndividualTalk(link))
-        return (confId, handlesToTalks)
+        confId, urlsToTalks = self._FindConfIdAndTalkLinksInPage(summaryPageHandle)
+        print('num talks: ' + str(len(urlsToTalks)))
+##        for url in urlsToTalks:
+##            print(url)
+        return (confId, urlsToTalks)
 
 
 class FetchTalksTest(unittest.TestCase):
@@ -101,12 +96,6 @@ class FetchTalksTest(unittest.TestCase):
             self.ft._FetchWeekenSummaryPage(talkUrl)
         mock_method.assert_called_once_with(talkUrl)
 
-    def test_FetchPage_OneUrlRequestMade(self):
-        talkUrl = 'https://www.lds.org/general-conference/2014/10/welcome-to-conference?lang=eng'
-        with patch.object(urllib.request, 'urlopen', return_value=None) as mock_method:
-            self.ft._FetchIndividualTalk(talkUrl)
-        mock_method.assert_called_once_with(talkUrl)
-
     def test_FindConfId_TitleTagSearched(self):
         confId = self.ft._FindConfId('<title>October 2014 LDS General Conference Talks</title>')
         self.assertEqual(confId, self.confId)
@@ -126,11 +115,9 @@ class FetchTalksTest(unittest.TestCase):
         self.ft._FetchWeekenSummaryPage = Mock(return_value=wHandle)
         self.ft._FindConfId = Mock(return_value=self.confId)
         self.ft._FindConfIdAndTalkLinksInPage = Mock(return_value=( self.confId, talkLinks ))
-        self.ft._FetchIndividualTalk = Mock(return_value=io.StringIO('some talk\'s content'))
         self.ft.FetchTalks(weekendUrl)
         self.ft._FetchWeekenSummaryPage.assert_called_with(weekendUrl)
         self.ft._FindConfIdAndTalkLinksInPage.assert_called_once_with(wHandle)
-        self.ft._FetchIndividualTalk.assert_called_with(talkLinks[0])
 
 
 class HtmlTagParser:

@@ -29,7 +29,8 @@ class ESIndexOps:
                                 "title" : { "type": "string" },
                                 "author" : { "type": "string" },
                                 "confid" : { "type": "string" },
-                                "content" : { "type": "string", "analyzer": "remove_html" }
+                                "content" : { "type": "string", "analyzer": "remove_html" },
+                                "url" : { "type": "string" }
                             }
                         }
                     }
