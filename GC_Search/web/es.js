@@ -10,7 +10,8 @@ angular.module('gcApp', ['elasticsearch'])
 	$scope.searcher.searchTerm = "enter search term";
 	$scope.searcher.results = [];
 	
-	$scope.searcher.search = function ($scope, client) {
+	$scope.searcher.search = function () {
+		
 		client.search({
 			index: 'gc',
 			type: 'talk',
@@ -25,7 +26,13 @@ angular.module('gcApp', ['elasticsearch'])
 			$scope.searcher.results = resp.hits.hits;
 			console.trace('successful query?');
 		}, function (err) {
+						
+			if (err instanceof esFactory.errors.NoConnections) {
+			  $scope.error = new Error('Unable to connect to elasticsearch. ' +
+				'Make sure that it is running and listening at http://localhost:9200');
+			}
 			console.trace(err.message);
+		
 		});
 	};
 	

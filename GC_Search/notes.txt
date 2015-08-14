@@ -167,3 +167,16 @@ I'm trying to get one search (one round trip to ES and back) to work. Here are s
 		There are no errors reported in Chrome's JS console...
 		Can I inspect this with Fiddler?
 		
+
+Aug 14, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+scraps:
+	$scope, client, esFactory
+	
+OK, I finally got my HTML to call my JS function to call to ES. But, that failed with error:
+
+XMLHttpRequest cannot load file://localhost:9200/gc/talk/_search. Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, https, chrome-extension-resource.
+
+So, if I access the html with the file:// protocol, then I can't call to HTTP by default because of the "cross origin restriction".
+But, this restriction can be worked around by tips in ng-book's section called "Cross-Origin and Same-Origin policy".
