@@ -16,7 +16,9 @@
 			</form>
 			
 			<ul>
-				<li></li>
+				<li ng-repeat="result in searcher.results">
+					<span>{{result.highlight.content}}</span>
+				</li>
 			</ul>
 			
 			<footer>

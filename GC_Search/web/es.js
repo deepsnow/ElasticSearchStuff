@@ -24,7 +24,7 @@ angular.module('gcApp', ['elasticsearch'])
 			}
 		}).then(function (resp) {
 			$scope.searcher.results = resp.hits.hits;
-			console.trace('successful query?');
+			console.trace($scope.searcher.results.length);
 		}, function (err) {
 						
 			if (err instanceof esFactory.errors.NoConnections) {

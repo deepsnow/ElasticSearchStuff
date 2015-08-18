@@ -190,4 +190,16 @@ and so now I'm getting this error:
 
 XMLHttpRequest cannot load http://localhost:9200/gc/talk/_search. The 'Access-Control-Allow-Origin' header contains the invalid value 'true'. Origin 'http://localhost' is therefore not allowed access.
 
-I'm going to commit my work to this point. 
+I'm going to commit my work to this point. Done!
+
+(I also committed some JS files I generated while going through some NodeSchool tutorials which I found to be very helpful...)
+
+I'm going to spend a few more minutes trying to allow cross-origin operations, if possible. If not, then I'll need to change my es_portal.js to be a REST/JSON API and it will have to talk to ES for me.
+
+OK, after adding the following lines to my elasticsearch.yml file
+
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+I've been able to round trip from browser (Chrome) to Node.js to ElasticSearch and back again. Now, let's see if I can get the results to display in the HTML...
+
