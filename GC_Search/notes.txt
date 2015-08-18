@@ -180,3 +180,14 @@ XMLHttpRequest cannot load file://localhost:9200/gc/talk/_search. Cross origin r
 
 So, if I access the html with the file:// protocol, then I can't call to HTTP by default because of the "cross origin restriction".
 But, this restriction can be worked around by tips in ng-book's section called "Cross-Origin and Same-Origin policy".
+
+
+Aug 18, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+OK, I've spent almost all day learning how to use Node.js to act as an HTTP server, and I've had some success. But, I'm still calling ES from the JS executing in the browser (rather than the JS executing within Node.js),
+and so now I'm getting this error:
+
+XMLHttpRequest cannot load http://localhost:9200/gc/talk/_search. The 'Access-Control-Allow-Origin' header contains the invalid value 'true'. Origin 'http://localhost' is therefore not allowed access.
+
+I'm going to commit my work to this point. 
