@@ -214,7 +214,7 @@ I've made some very good progress today:
 	
 What improvements could I make?
 	1- Show only <em> tags, but not other tags, in the HTML from ES that's rendered safe.
-	2- Use only Angular directives in HTML, and not in JavaScript code, to make the HTML safe. (1 and 2 may not jive together.)
+	2- 
 	3- Don't show an empty table before there are hits.
 	4- Show something appropriate when a search is performed but no hits are found.
 	5- Sort the results in chronological order?
