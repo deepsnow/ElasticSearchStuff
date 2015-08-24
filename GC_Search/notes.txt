@@ -185,7 +185,7 @@ But, this restriction can be worked around by tips in ng-book's section called "
 Aug 18, 2015
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-OK, I've spent almost all day learning how to use Node.js to act as an HTTP server, and I've had some success. But, I'm still calling ES from the JS executing in the browser (rather than the JS executing within Node.js),
+OK, I've spent almost all day learning how to use Node.js to act as an HTTP server (http://nodeschool.io/#workshopper-list), and I've had some success. But, I'm still calling ES from the JS executing in the browser (rather than the JS executing within Node.js),
 and so now I'm getting this error:
 
 XMLHttpRequest cannot load http://localhost:9200/gc/talk/_search. The 'Access-Control-Allow-Origin' header contains the invalid value 'true'. Origin 'http://localhost' is therefore not allowed access.
@@ -203,3 +203,51 @@ http.cors.allow-origin: "*"
 
 I've been able to round trip from browser (Chrome) to Node.js to ElasticSearch and back again. Now, let's see if I can get the results to display in the HTML...
 
+
+Aug 24, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+I've made some very good progress today:
+	I can show all of the search hits from each conf talk that contains them.
+	I can show each hit in italics because I'm using $sce.trustAsHtml().
+	I can show each talk with hits in its own row in a results table, along with a URL to the original online source for the talk.
+	
+What improvements could I make?
+	1- Show only <em> tags, but not other tags, in the HTML from ES that's rendered safe.
+	2- Use only Angular directives in HTML, and not in JavaScript code, to make the HTML safe. (1 and 2 may not jive together.)
+	3- Don't show an empty table before there are hits.
+	4- Show something appropriate when a search is performed but no hits are found.
+	5- Sort the results in chronological order?
+	6- How to allow stemming, or whatever it will take, in order for "rehears*" to find "rehearsing"...?
+	7- Why am I restricted to only 10 hits? I know that "peace" has 27 hits...
+	
+Which of these should I work on now?
+
+Sorting in chronological order is tricky.
+	I've inserted the talks in reverse chronological order (according to output captured during insertion).
+		How to reverse that ordering on search hits?
+			_id is a string: http://grokbase.com/t/gg/elasticsearch/151vqsb0vf/how-does-sorting-on-id-work, and _uid is as well https://github.com/elastic/elasticsearch/issues/1756
+			The latter URL suggests this:
+				"For what you want, you should create an id field, map it to a long integer,
+				and then copy your _id into that id field when you load the document. Then
+				when you sort on the id field, you will get a numeric sort."
+				
+I can see from the results of
+
+GET /gc/talk/_search
+{
+  "fields" : ["title", "author", "confid", "url"],
+  "query" : {
+    "match" : {
+      "content" : "peace"
+    }
+  },
+  "sort" : [ "_uid" ],
+  "highlight" : {
+    "fields" : {
+      "content" : {"number_of_fragments": 50}
+    }
+  }
+}
+
+that _uid serves well for a lexographic sort on doc ID, but not a numeric one. "_id" doesn't sort at all.

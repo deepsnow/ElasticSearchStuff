@@ -11,15 +11,24 @@
 			<h3>This is not an official site of the Church of Jesus Christ of Latter-day Saints.</h3>
 			
 			<form ng-submit="searcher.search()">
-				<input type="text" size="30" placeholder="{{searcher.searchTerm}}">
+				<input ng-model="searcher.searchTerm" type="text" size="30" placeholder="{{searcher.searchTerm}}">
 				<input class="btn-primary" type="submit" value="search">
 			</form>
-			
-			<ul>
-				<li ng-repeat="result in searcher.results">
-					<span>{{result.highlight.content}}</span>
-				</li>
-			</ul>
+				
+			<table border="1">
+				<tr ng-repeat="result in searcher.results">
+					<td>{{result.fields.confid[0]}}</td>
+					<td><a href="{{result.fields.url[0]}}">{{result.fields.title[0]}}</a></td>
+					<td>{{result.fields.author[0]}}</td>
+					<td>
+					<ul>
+						<li ng-repeat="highlight in result.highlight.content">
+						<span ng-bind-html="highlight"/>
+						</li>
+					</ul>
+					</td>
+				<tr>
+			</table>
 			
 			<footer>
 				<p>General Conference talk content was retrieved from:</p>
