@@ -37,8 +37,8 @@ angular.module('gcApp', ['elasticsearch'])
 					result.highlight.content[j] = $sce.trustAsHtml(result.highlight.content[j])
 				}
 			}
-			
-			console.trace($scope.searcher.results.length);
+			console.trace(resp.hits.total)
+			console.trace($scope.searcher.results.length)
 		}, function (err) {
 						
 			if (err instanceof esFactory.errors.NoConnections) {

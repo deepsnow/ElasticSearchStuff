@@ -15,7 +15,7 @@
 				<input class="btn-primary" type="submit" value="search">
 			</form>
 				
-			<table border="1">
+			<table border="1" ng-hide="searcher.results.length === 0">
 				<tr ng-repeat="result in searcher.results">
 					<td>{{result.fields.confid[0]}}</td>
 					<td><a href="{{result.fields.url[0]}}">{{result.fields.title[0]}}</a></td>

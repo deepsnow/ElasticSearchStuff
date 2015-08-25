@@ -251,3 +251,19 @@ GET /gc/talk/_search
 }
 
 that _uid serves well for a lexographic sort on doc ID, but not a numeric one. "_id" doesn't sort at all.
+
+Aug 25, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Why am I only getting 10 hits from JS when Sense is giving me 27 (for search term "peace")?
+
+Ah, ES only returns the top 10 hits by default.
+	http://stackoverflow.com/questions/8829468/elasticsearch-query-to-return-all-records
+	https://www.elastic.co/guide/en/elasticsearch/guide/current/_search_lite.html
+	https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-scroll.html#scroll-scan
+	
+How am I going to deal with that?
+	It looks like I'm either going to have to query for a count and then query for all docs with size=count,
+	or I'll have to query with scroll and paginate. (But I can't do scroll scan because scan prevents sorting...)
+	
+I think I'm going to fix the display of the empty table and then cook lunch. OK, that's done with ng-hide.
