@@ -267,3 +267,23 @@ How am I going to deal with that?
 	or I'll have to query with scroll and paginate. (But I can't do scroll scan because scan prevents sorting...)
 	
 I think I'm going to fix the display of the empty table and then cook lunch. OK, that's done with ng-hide.
+
+
+Aug 31, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GET /gc/talk/_count
+{
+  "query" : {
+    "match" : {
+      "content" : "peace"
+    }
+  }
+}
+
+OK, I've figured out how to get all 27 results by querying for count and then querying for the entire body of results knowing the count. But, I still have major limitations:
+	1- The JS script is now much less readable - how to compose it into smaller functions?
+		* How to get the search to refrain from starting until the count is done?
+	2- I need to implement an exclusively client-side (and therefore RESTful) pagination scheme.
+		* I'm tempted to offer the user a chance to export to CSV so that he/she can them import to excel for additional searching/sorting.
+	3- I still have the sorting done.
