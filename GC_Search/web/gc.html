@@ -21,11 +21,14 @@
 					<td><a href="{{result.fields.url[0]}}">{{result.fields.title[0]}}</a></td>
 					<td>{{result.fields.author[0]}}</td>
 					<td>
-					<ul>
-						<li ng-repeat="highlight in result.highlight.content">
-						<span ng-bind-html="highlight"/>
-						</li>
-					</ul>
+						<ul ng-if="result.highlight.content.length > 1">
+							<li ng-repeat="highlight in result.highlight.content">
+							<span ng-bind-html="highlight"/>
+							</li>
+						</ul>
+						<div ng-if="result.highlight.content.length === 1">
+							<span ng-bind-html="result.highlight.content[0]"/>
+						</div>
 					</td>
 				<tr>
 			</table>
