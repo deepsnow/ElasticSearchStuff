@@ -287,3 +287,37 @@ OK, I've figured out how to get all 27 results by querying for count and then qu
 	2- I need to implement an exclusively client-side (and therefore RESTful) pagination scheme.
 		* I'm tempted to offer the user a chance to export to CSV so that he/she can them import to excel for additional searching/sorting.
 	3- I still have the sorting done.
+	
+
+Sept 3, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+What can I work on?
+
+	1- Show only <em> tags, but not other tags, in the HTML from ES that's rendered safe.
+	2- Show something appropriate when a search is performed but no hits are found.
+	3- Sort the results in chronological order?
+	4- How to allow stemming, or whatever it will take, in order for "rehears*" to find "rehearsing"...?
+	5- Add all content back to 1971
+	6- Add all content from archive.org
+	7- add unit tests to JS code
+	8- make JS code pleasantly modular
+	9- beautify UI with style sheet
+	10- allow user to choose sort order (search rank, chronogical asc or desc)
+	11- move all ES interaction back into node.js
+	
+I've done several of the exercises for node.js with learnyounode from http://nodeschool.io/ (a few days back). Now I'll do some of the JS exercises and then I'll read ng-book to find out about unit testing.
+
+I've done several exercises from javascripting (also from nodeschool) to learn about JS functions, function args, and scope.
+
+Now I'm reading in ng-book about JS testing (both unit and end-to-end testing).
+
+	Ari Lerner says to "npm install -g karma" because karma is the test runner he recommends. But, I got a lot of errors from that command:
+		- warn: optional dep failed fsevents@0.3.8
+		- only python supported is less than 3.0, but I have 3.4.3
+			for bufferutil
+			for utf-8-validate
+	I wonder if it will still work?
+	
+I've installed Karma, and I've created a first-draft of a karma.config.js file. I'm still reading about all of the confid settings that I think I'll need in order to start unit testing.
+
