@@ -324,3 +324,7 @@ I've installed Karma, and I've created a first-draft of a karma.config.js file. 
 Sept 4, 2015
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Where do I get angular.js and angular-mocks.js? (See ng-book page 300.)
+
+OK, I'm in the middle of reading about Karma and Jasmin, which is a BDD framework.
+
