@@ -11,7 +11,10 @@ angular.module('gcApp', ['elasticsearch'])
 	$scope.searcher.results = []
 	
 	$scope.searcher.search = function () {
-			
+		esCountAndSearch()
+	}
+	
+	function esCountAndSearch() {
 		client.count({
 			index: 'gc',
 			type: 'talk',
@@ -24,44 +27,7 @@ angular.module('gcApp', ['elasticsearch'])
 			}
 		}).then(function (resp) {
 			hitCount = resp.count
-
-			client.search({
-				index: 'gc',
-				type: 'talk',
-				size: hitCount,
-				body: {
-					fields : ['title', 'author', 'confid', 'url'],
-					query: {
-						match: {
-							content: $scope.searcher.searchTerm
-						}
-					},
-					highlight : {
-						  fields : {
-							content : {number_of_fragments: 50}
-						}
-					}
-				}
-			}).then(function (resp) {
-				$scope.searcher.results = resp.hits.hits
-				
-				for (var i=0; i<$scope.searcher.results.length; i++) {
-					var result = $scope.searcher.results[i]
-					for (var j=0; j<result.highlight.content.length; j++) {
-						result.highlight.content[j] = $sce.trustAsHtml(result.highlight.content[j])
-					}
-				}
-				console.trace(resp.hits.total)
-				console.trace($scope.searcher.results.length)
-			}, function (err) {
-							
-				if (err instanceof esFactory.errors.NoConnections) {
-				  $scope.error = new Error('Unable to connect to elasticsearch to fetch previously counted hits. ' +
-					'Make sure that it is running and listening at http://localhost:9200')
-				}
-				console.trace(err.message);
-			})
-			
+			esSearch(hitCount)
 		}, function (err) {
 						
 			if (err instanceof esFactory.errors.NoConnections) {
@@ -69,6 +35,48 @@ angular.module('gcApp', ['elasticsearch'])
 				'Make sure that it is running and listening at http://localhost:9200')
 			}
 			console.trace(err.message)
+		})		
+	}
+	
+	function esSearch(hitCount) {
+		client.search({
+			index: 'gc',
+			type: 'talk',
+			size: hitCount,
+			body: {
+				fields : ['title', 'author', 'confid', 'url'],
+				query: {
+					match: {
+						content: $scope.searcher.searchTerm
+					}
+				},
+				highlight : {
+					  fields : {
+						content : {number_of_fragments: 50}
+					}
+				}
+			}
+		}).then(function (resp) {
+			$scope.searcher.results = resp.hits.hits	
+			trustHtmlHighlightMarkup()
+			console.trace(resp.hits.total)
+			console.trace($scope.searcher.results.length)
+		}, function (err) {
+						
+			if (err instanceof esFactory.errors.NoConnections) {
+			  $scope.error = new Error('Unable to connect to elasticsearch to fetch previously counted hits. ' +
+				'Make sure that it is running and listening at http://localhost:9200')
+			}
+			console.trace(err.message);
 		})
+	}
+	
+	function trustHtmlHighlightMarkup() {
+		for (var i=0; i<$scope.searcher.results.length; i++) {
+			var result = $scope.searcher.results[i]
+			for (var j=0; j<result.highlight.content.length; j++) {
+				result.highlight.content[j] = $sce.trustAsHtml(result.highlight.content[j])
+			}
+		}		
 	}
 })

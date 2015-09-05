@@ -321,3 +321,6 @@ Now I'm reading in ng-book about JS testing (both unit and end-to-end testing).
 	
 I've installed Karma, and I've created a first-draft of a karma.config.js file. I'm still reading about all of the confid settings that I think I'll need in order to start unit testing.
 
+Sept 4, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
