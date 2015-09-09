@@ -368,3 +368,20 @@ Sorting now works in my app!!! I can sort chronologically (oldest to newest or n
 See http://stackoverflow.com/questions/17968760/how-to-set-a-selected-option-of-a-dropdown-list-control-using-angular-js
 for info on how to make an HTML drop-down list whose selected element is known to Angular...
 
+
+current to-do list:
+
+	1- Show only <em> tags, but not other tags, in the HTML from ES that's rendered safe.
+	2- Show something appropriate when a search is performed but no hits are found.
+	3- 
+	4- How to allow stemming, or whatever it will take, in order for "rehears*" to find "rehearsing"...?
+	5- Add all content back to 1971
+	6- Add all content from archive.org
+	7- add unit tests to JS code
+	8- 
+	9- beautify UI with style sheet
+	10- 
+	11- move all ES interaction back into node.js
+	12- move the python insert scripts into their own sub-directory
+	13- make the page footer a real footer
+	14- how to fix the scrolling artifact within Chrome (visible with 27 hits)
