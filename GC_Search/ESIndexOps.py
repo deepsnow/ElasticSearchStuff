@@ -26,6 +26,7 @@ class ESIndexOps:
                     "mappings" : {
                         "talk" : {
                             "properties" : {
+                                "talkSortId" : { "type": "integer" },
                                 "title" : { "type": "string" },
                                 "author" : { "type": "string" },
                                 "confid" : { "type": "string" },

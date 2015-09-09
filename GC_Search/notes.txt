@@ -305,6 +305,9 @@ What can I work on?
 	9- beautify UI with style sheet
 	10- allow user to choose sort order (search rank, chronogical asc or desc)
 	11- move all ES interaction back into node.js
+	12- move the python insert scripts into their own sub-directory
+	13- make the page footer a real footer
+	14- how to fix the scrolling artifact within Chrome (visible with 27 hits)
 	
 I've done several of the exercises for node.js with learnyounode from http://nodeschool.io/ (a few days back). Now I'll do some of the JS exercises and then I'll read ng-book to find out about unit testing.
 
@@ -327,4 +330,41 @@ Sept 4, 2015
 Where do I get angular.js and angular-mocks.js? (See ng-book page 300.)
 
 OK, I'm in the middle of reading about Karma and Jasmin, which is a BDD framework.
+
+
+Sept 9, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+OK, Floyd Hilton, Director of Dev for Pinnacle IT in Waterville, wants to see this project in conjunction with my application to work for Pinnacle in a dev role.
+And, I'm going to be demonstrating this app to Floyd tomorrow morning at 9:00 AM.
+
+How should I prepare for this demo?
+
+What improvements do I want to make for this demo?
+	- JS unit tests?
+	- sort order?
+	- UI tweaks
+		- added source info (DONE - unless I want to specify what is included and what isn't)
+		- improved source info display (table instead of bullet list)
+		- 
+		
+OK, I want to work on sort order. I think I've changed the python in order to:
+	1- create the index and mapping with a numeric field on which I can sort.
+	2- populate ES with meaningful values in the numeric field.
+	
+Now I need to try it out by deleting the ES index, recreating it, and repopulating it.
+How do I do that again?
+
+DELETE gc // in sense
+python -m unittest InsertGCTalksIntoES.py // after making mods to document insertion code
+python -m unittest ESIndexOps.py // after making mods to index creation code
+python experimental_index_create.py // re-create the index named "gc"
+python experimental_inserts_some_confs.py > 09Sep2015_1.txt // repopulate the index with talks from 2014 and 2015; redirect needed because of unicode chars in Eyring's talk.
+
+The sorting now works in Sense!!! Now I need to change the HTML and JS to take advantage of that sorting.
+
+Sorting now works in my app!!! I can sort chronologically (oldest to newest or newest to oldest), or by search relevance.
+
+See http://stackoverflow.com/questions/17968760/how-to-set-a-selected-option-of-a-dropdown-list-control-using-angular-js
+for info on how to make an HTML drop-down list whose selected element is known to Angular...
 

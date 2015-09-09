@@ -64,9 +64,10 @@ class IndexTalks:
 
     def _InsertOneTalkIntoES(self, talkHandle, talkUrl):
         title, author, talkContent = self._GetTitleAuthorContent(talkHandle)
-        json_body = json.dumps({'title': title, 'author': author, 'confid': self.confId, 'content': talkContent, 'url': talkUrl})
         idnum = self._GetNextId()
-        print('indexing doc num: ' + str(idnum))
+        idNumStr = str(idnum)
+        print('indexing doc num: ' + idNumStr)
+        json_body = json.dumps({'talkSortId': idNumStr, 'title': title, 'author': author, 'confid': self.confId, 'content': talkContent, 'url': talkUrl})
         self.es.index(index=self.index_name, doc_type=self.doc_type, id=idnum, body=json_body)
 
 
@@ -90,7 +91,7 @@ class IndexTalksTest(unittest.TestCase):
         mock_method.assert_called_once_with(talkUrl)
 
     def test_InsertOneTalkIntoES_ESApiCalled(self):
-        json_body = json.dumps({'title': 'Welcome to Conference', 'author': 'President Thomas S. Monson', 'confid': self.confId, 'content': self.htmlContent, 'url': self.talkUrl})
+        json_body = json.dumps({'talkSortId': '0', 'title': 'Welcome to Conference', 'author': 'President Thomas S. Monson', 'confid': self.confId, 'content': self.htmlContent, 'url': self.talkUrl})
         talkHandle = io.BytesIO(bytes(self.htmlContent, 'utf-8'))
         self.it.confId = self.confId
         with patch.object(Elasticsearch, 'index', return_value=None) as mock_method:

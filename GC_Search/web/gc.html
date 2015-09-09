@@ -10,9 +10,12 @@
 			<h1>LDS General Conference Search</h1>
 			<h3>This is not an official site of the Church of Jesus Christ of Latter-day Saints.</h3>
 			
+			
 			<form ng-submit="searcher.search()">
 				<input ng-model="searcher.searchTerm" type="text" size="30" placeholder="{{searcher.searchTerm}}">
 				<input class="btn-primary" type="submit" value="search">
+				<select data-ng-options="o.name for o in searcher.sortOrderings" data-ng-model="searcher.chosenOrdering">
+				</select>
 			</form>
 				
 			<table border="1" ng-hide="searcher.results.length === 0">
@@ -34,11 +37,12 @@
 			</table>
 			
 			<footer>
-				<p>General Conference talk content was retrieved from:</p>
-				<ul>
-					<li>Apr 2015 - Apr 1971: <a href="https://www.lds.org/general-conference/conferences?lang=eng">lds.org's General Conference Archive</a></li>
-				</ul>
-				<p>The source code for this site, and for populating the underlying ElasticSearch engine with the content listed above, can be found <a href="https://github.com/deepsnow/ElasticSearchStuff/tree/master/GC_Search">here</a>.
+				<p>General Conference talk content was (or will be) retrieved from:</p>
+				<table>
+					<tr><td>Apr 2015 - Apr 1971: <a href="https://www.lds.org/general-conference/conferences?lang=eng">lds.org's General Conference Archive (only selected sessions now, the rest coming soon)</a></td></tr>
+					<tr><td>Apr 1970 - Oct 1897, and Apr 1880: <a href="https://archive.org/search.php?query=%28collection%3Aconferencereport+OR+mediatype%3Aconferencereport%29+AND+-mediatype%3Acollection&sort=date&page=1">archive.org's LDS Conference Reports (coming soon)</a></td></tr>
+				</table>
+				<p>The source code for this site, and for populating the underlying search engine with the content listed above, can be found <a href="https://github.com/deepsnow/ElasticSearchStuff/tree/master/GC_Search">here</a>.
 			</footer>
 		</div>
 	</body>

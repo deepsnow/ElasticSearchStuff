@@ -9,6 +9,8 @@ angular.module('gcApp', ['elasticsearch'])
 	$scope.searcher = this
 	$scope.searcher.searchTerm = "enter search term"
 	$scope.searcher.results = []
+	$scope.searcher.sortOrderings = [{ name: "oldest first", id: 0 }, { name: "newest first", id: 1 }, { name: "relevance", id: 2 }]
+	$scope.searcher.chosenOrdering = $scope.searcher.sortOrderings[0]
 	
 	$scope.searcher.search = function () {
 		esCountAndSearch()
@@ -39,23 +41,13 @@ angular.module('gcApp', ['elasticsearch'])
 	}
 	
 	function esSearch(hitCount) {
+		var sbody = generateEsSearchBody()
+		
 		client.search({
 			index: 'gc',
 			type: 'talk',
 			size: hitCount,
-			body: {
-				fields : ['title', 'author', 'confid', 'url'],
-				query: {
-					match: {
-						content: $scope.searcher.searchTerm
-					}
-				},
-				highlight : {
-					  fields : {
-						content : {number_of_fragments: 50}
-					}
-				}
-			}
+			body: sbody
 		}).then(function (resp) {
 			$scope.searcher.results = resp.hits.hits	
 			trustHtmlHighlightMarkup()
@@ -78,5 +70,32 @@ angular.module('gcApp', ['elasticsearch'])
 				result.highlight.content[j] = $sce.trustAsHtml(result.highlight.content[j])
 			}
 		}		
+	}
+	
+	function generateEsSearchBody() {
+		
+		var sbody = {}
+		
+		sbody['fields'] = ['title', 'author', 'confid', 'url']
+		sbody['query'] = {
+						match: {
+							content: $scope.searcher.searchTerm
+						}
+					}
+		sbody['highlight'] = {
+						  fields : {
+							content : {number_of_fragments: 50}
+						}
+					}
+					
+		if ($scope.searcher.chosenOrdering.id === 0) {
+			sbody['sort'] = { 'talkSortId': { order: 'desc' } }
+		}
+		
+		if ($scope.searcher.chosenOrdering.id === 1) {
+			sbody['sort'] = { 'talkSortId': { order: 'asc' } }
+		}
+		
+		return sbody
 	}
 })
