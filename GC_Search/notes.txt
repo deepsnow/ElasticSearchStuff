@@ -372,6 +372,7 @@ for info on how to make an HTML drop-down list whose selected element is known t
 current to-do list:
 
 	1- Show only <em> tags, but not other tags, in the HTML from ES that's rendered safe.
+		Allow only <em> tag
 	2- Show something appropriate when a search is performed but no hits are found.
 	3- 
 	4- How to allow stemming, or whatever it will take, in order for "rehears*" to find "rehearsing"...?
@@ -386,4 +387,39 @@ current to-do list:
 	13- make the page footer a real footer
 	14- how to fix the scrolling artifact within Chrome (visible with 27 hits)
 	15- begin to research how to support mobile devices
+		Can other hosts here in my home access this app? How does it look on mobile/tablet devices?
 	16- paginate results and allow the user to move from page to page within the same search indefinitely
+	17- I need to form a test plan
+		How can I be sure that I've correctly captured all talk text from lds.org? from archive.org?
+	18- figure out how to run all of the python unit tests in one command (rather than invoke the tester on each source file)
+	19- also figure out how to use coverage.py for measuring code coverage
+	20- automate the startup of ES and Node.js here on my dev box
+	21- sort results without added round trip to ES
+		angular can sort ("repeater")
+		HTML table can sort
+	
+	
+Sept 10, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+OK, I've been looking at https://archive.org/details/conferencereport?&sort=date and
+	- I can retrieve the full text of each Conf Report
+		* but I don't know if I can parse out each and every talk
+			Some times the speaker's name is listed in all caps on the page header, and sometimes at the beginning of the text of the address.
+			I might have write to say: "if a line has all caps, and then a subsequent line says 'OPENING REMARKS' or is multiline phrase delimited by hyphens (which is a short synopsis of the talk that follows), then I know I've found the beginning of a new talk"
+			
+	- There are several pages of Conf reports given at https://archive.org/details/conferencereport?&sort=date, but only upon scrolling to the bottom of (what I later observed was) the first page did the second page appear.
+		* How can I identify the number of pages?
+			https://archive.org/details/conferencereport?&sort=date&page=2
+			
+Floyd Hilton's tips:
+
+	cmder?
+		// not http://devtidbits.com/2014/05/21/create-a-better-windows-command-line-prompt/ (ConsoleZ)
+	https://www.sourcetreeapp.com/
+	Visual Studio Code
+	pycharm
+	Visual Studio 2013 Community Edition
+		MVC Web Application project type (contains templating engine for HTML)
+		Web API project type (respond with JSON, etc)
+		(These two types can be combined)
