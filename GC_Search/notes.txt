@@ -385,3 +385,5 @@ current to-do list:
 	12- move the python insert scripts into their own sub-directory
 	13- make the page footer a real footer
 	14- how to fix the scrolling artifact within Chrome (visible with 27 hits)
+	15- begin to research how to support mobile devices
+	16- paginate results and allow the user to move from page to page within the same search indefinitely
