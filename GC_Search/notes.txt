@@ -428,7 +428,7 @@ Hiring manager's tips:
 Nov 11, 2015
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Austin McDaniel has recommended protractor for end-to-end AngularJS app testing.
+Another hiring manager has recommended protractor for end-to-end AngularJS app testing.
 Following the installation instructions at https://angular.github.io/protractor/#/ I've
 	1- npm install -g protractor
 		this outputed some errors regarding Python 3.4.3 being too high, which learnyounode did as well if I remember correctly
