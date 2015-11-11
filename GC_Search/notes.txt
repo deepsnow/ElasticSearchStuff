@@ -423,3 +423,23 @@ Floyd Hilton's tips:
 		MVC Web Application project type (contains templating engine for HTML)
 		Web API project type (respond with JSON, etc)
 		(These two types can be combined)
+		
+
+Nov 11, 2015
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Austin McDaniel has recommended protractor for end-to-end AngularJS app testing.
+Following the installation instructions at https://angular.github.io/protractor/#/ I've
+	1- npm install -g protractor
+		this outputed some errors regarding Python 3.4.3 being too high, which learnyounode did as well if I remember correctly
+	2- protractor --version
+		succeeded: "Version 2.5.1"
+	3- webdriver-manager update
+		succeeded: updated selenium standalone and chromedriver...
+	4- webdriver-manager start
+		succeeded: console output and http://localhost:4444/wd/hub/static/resource/hub.html looking good
+		
+Now, can I copy-paste-tweak their example to become a simple test for GC_Search?
+
+Yes, I've created a working protractor test. That's awesome!
+
