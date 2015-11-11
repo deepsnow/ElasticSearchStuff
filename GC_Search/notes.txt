@@ -335,8 +335,8 @@ OK, I'm in the middle of reading about Karma and Jasmin, which is a BDD framewor
 Sept 9, 2015
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-OK, Floyd Hilton, Director of Dev for Pinnacle IT in Waterville, wants to see this project in conjunction with my application to work for Pinnacle in a dev role.
-And, I'm going to be demonstrating this app to Floyd tomorrow morning at 9:00 AM.
+OK, a dev manager wants to see this project in conjunction with my application to work for his firm.
+And, I'm going to be demonstrating this app to him tomorrow morning at 9:00 AM.
 
 How should I prepare for this demo?
 
@@ -412,7 +412,7 @@ OK, I've been looking at https://archive.org/details/conferencereport?&sort=date
 		* How can I identify the number of pages?
 			https://archive.org/details/conferencereport?&sort=date&page=2
 			
-Floyd Hilton's tips:
+Hiring manager's tips:
 
 	cmder?
 		// not http://devtidbits.com/2014/05/21/create-a-better-windows-command-line-prompt/ (ConsoleZ)
